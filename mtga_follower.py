@@ -816,13 +816,18 @@ if __name__ == '__main__':
         help=f'Host to submit requests to. If not specified, will use {API_ENDPOINT}')
     parser.add_argument('--once', action='store_true',
         help='Whether to stop after parsing the file once (default is to continue waiting for updates to the file)')
-
+    parser.add_argument('--show_token', action='store_true',
+        help='Show the full value of the user token')
+    
     args = parser.parse_args()
 
     verify_valid_version(args.host)
 
     token = get_client_token()
-    logging.info(f'Using token {token}')
+    if args.show_token:
+        logging.info(f'Using token {token}')
+    else:
+        logging.info(f'Using token {token[:3]}**************************{token[-3:]}')
 
     filepaths = POSSIBLE_CURRENT_FILEPATHS
     if args.log_file is not None:
